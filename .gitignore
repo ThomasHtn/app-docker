@@ -1,3 +1,8 @@
+backend/.venv/
+backend/venv/
+frontend/.venv/
+frontend/venv/
+
 /.venv
 /mlruns
 
