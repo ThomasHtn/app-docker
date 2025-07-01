@@ -1,0 +1,5 @@
+FROM python:3.10-slim
+WORKDIR /app
+COPY app.py .
+RUN pip install streamlit requests loguru
+CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
