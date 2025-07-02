@@ -1,4 +1,5 @@
-loguru
 fastapi
-uvicorn
+uvicorn[standard]
 pydantic
+loguru
+pytest

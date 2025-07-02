@@ -1,17 +1,26 @@
+import os
+
 import requests
 import streamlit as st
 from loguru import logger
 
-st.title("Carré d'un entier")
+API_URL = os.getenv("API_URL", "http://backend:9500")
 
-num = st.number_input("Entrez un entier:", step=1, format="%d")
+st.title("Calcul du carré d’un entier")
+
+number = st.number_input("Entrez un entier", step=1)
+
 if st.button("Calculer le carré"):
     try:
-        logger.info(f"Envoi de l'entier {num} à l'API")
-        res = requests.post("http://localhost:9500/square", json={"number": int(num)})
-        res.raise_for_status()
-        result = res.json()["result"]
-        st.success(f"Le carré de {int(num)} est {result}")
+        url = f"{API_URL}/square"
+        logger.info(f"Calling API URL: {url}")
+        response = requests.post(url, json={"number": int(number)})
+        if response.status_code == 200:
+            result = response.json()["result"]
+            st.success(f"Le carré de {number} est {result}")
+        else:
+            st.error(f"Erreur côté serveur: {response.status_code}")
+            logger.error(f"Erreur API: {response.text}")
     except Exception as e:
-        logger.error(f"Erreur lors de l'appel à l'API: {e}")
-        st.error("Une erreur s'est produite")
+        st.error("Connexion à l'API impossible")
+        logger.exception(e)
