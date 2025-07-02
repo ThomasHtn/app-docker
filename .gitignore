@@ -3,6 +3,8 @@ backend/venv/
 frontend/.venv/
 frontend/venv/
 
+backend/tests/__pycache__
+
 /.venv
 /mlruns
 

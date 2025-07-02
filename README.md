@@ -1,5 +1,5 @@
 # Description
-The aim of this project is to use a trained model to predict the amount of a loan based on parameters supplied by the user.
+The aim of this project is to use implement a complete docker stack and and github actions to auto run pipeline test
 
 ## Virtual environment
 
@@ -33,46 +33,71 @@ source .venv/bin/activate
 ### Structure : 
 ```
 .
-├── api.py
-├── api_test.py
-├── app.py
-├── data.csv
-├── logs.txt
-├── model.pkl
-├── notebook.ipynb
-├── preprocessor.pkl
-├── README.md
-├── requirements.txt
-└── train_model_exemple.py
+├── backend
+│   ├── Dockerfile
+│   ├── main.py
+│   ├── modules
+│   │   └── calcul.py
+│   ├── requirements.txt
+│   └── tests
+│       └── test_calcul.py
+├── docker-compose.yml
+├── frontend
+│   ├── app.py
+│   ├── Dockerfile
+│   └── requirements.txt
+└── README.md
 ```
 
 ## Start streamlit (front)
 ```batch 
+streamlit run frontend/app.py
 ```
+
+or 
+
+```batch 
+docker run -p 8501:8501 frontend-app
+```
+
 
 ## Start fastAPI (back)
 ```batch 
 uvicorn api:app --host 127.0.0.1 --port 9500 --reload
 ```
+or
+```batch 
+docker run -p 9500:9500 backend-app
+```
 
+## API Swagger
 [Documentation de l'api](http://127.0.0.1:9500/docs)
 
-## Generate and Train a model from csv
-```batch 
-python3 train_model_exemple.py
-```
 
-## Execute test
-```batch 
-pytest api_test.py
-```
-
-## Build project with docker
+## Build project with docker (back)
 ```batch
-docker compose upœ
+cd backend
+docker build -t frontend-app .
+```
+
+## Build project with docker (front)
+```batch
+cd frontend
+docker build -t frontend-app .
 ```
 
 ## Run project with docker
 ```batch
 docker compose up --build
+```
+
+or 
+
+```batch
+docker-compose up --build
+```
+
+## Execute test
+```batch 
+pytest backend/tests/test_calcul.py
 ```
