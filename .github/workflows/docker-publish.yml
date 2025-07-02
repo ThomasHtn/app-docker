@@ -30,18 +30,29 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-buildx-
 
-    - name: Build and push Docker image
+    - name: Build and push backend image
       uses: docker/build-push-action@v5
       with:
         context: ./backend
         file: ./backend/Dockerfile
         push: true
         tags: |
-          ${{ secrets.DOCKER_USERNAME }}/app-docker:latest
-          ${{ secrets.DOCKER_USERNAME }}/app-docker:${{ github.sha }}
+          ${{ secrets.DOCKER_USERNAME }}/app-backend:latest
+          ${{ secrets.DOCKER_USERNAME }}/app-backend:${{ github.sha }}
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,dest=/tmp/.buildx-cache-new
 
+    - name: Build and push frontend image
+      uses: docker/build-push-action@v5
+      with:
+        context: ./frontend
+        file: ./frontend/Dockerfile
+        push: true
+        tags: |
+          ${{ secrets.DOCKER_USERNAME }}/app-frontend:latest
+          ${{ secrets.DOCKER_USERNAME }}/app-frontend:${{ github.sha }}
+        cache-from: type=local,src=/tmp/.buildx-cache
+        cache-to: type=local,dest=/tmp/.buildx-cache-new
 
     - name: Move new cache
       run: |
