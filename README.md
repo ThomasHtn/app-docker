@@ -108,3 +108,16 @@ pytest backend/tests/test_calcul.py
 
 ## Github actions
 [Actions](https://github.com/ThomasHtn/app-docker/actions)
+
+
+## Pull une image
+```batch 
+docker pull thoutin/app-backend:aab3e8ff5b340ab116b6b66fe3dd57a216d0b078
+```
+
+## Run une image 
+```batch
+docker images 
+docker run <image_id>
+```
+
